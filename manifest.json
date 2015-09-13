@@ -1,29 +1,21 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
-
-    "name": "Twitch Buffering Fix",
-    "version": "1.0.2",
-    "manifest_version": 2,
-	"author": "vixing",
-    "description": "Lets you switch Twitch server to avoid buffering.",
-    "icons": {
-			"16": "icon16.png",
-			"48": "icon48.png",
-			"128": "icon128.png" },
-    "browser_action": {
-        "default_title": "Twitch Buffering Fix",
-        "default_icon": "icon48.png"
-    },
-    "background": {
-        "scripts": [
-            "bg.js"
-        ]
-    },
-    "permissions": [
-        "notifications",
-        "tabs",
-        "webRequest",
-        "webRequestBlocking",
-        "http://*.hls.ttvnw.net/*"
-    ]
+   "author": "vixing",
+   "background": {
+      "scripts": [ "bg.js" ]
+   },
+   "browser_action": {
+      "default_icon": "icons/icon48.png",
+      "default_title": "Twitch Buffering Fix",
+      "default_popup": "popup.html"
+   },
+   "description": "Lets you switch Twitch server to avoid buffering.",
+   "icons": {
+      "128": "icons/icon128.png",
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+   },
+   "manifest_version": 2,
+   "name": "Twitch Buffering Fix",
+   "permissions": [ "notifications", "tabs", "webRequest", "webRequestBlocking", "http://*.hls.ttvnw.net/*" ],
+   "version": "1.0.2"
 }
