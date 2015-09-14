@@ -1,21 +1,21 @@
 {
-   "author": "vixing",
-   "background": {
-      "scripts": [ "bg.js" ]
-   },
-   "browser_action": {
-      "default_icon": "icons/icon48.png",
-      "default_title": "Twitch Buffering Fix",
-      "default_popup": "popup.html"
-   },
-   "description": "Lets you switch Twitch server to avoid buffering.",
-   "icons": {
-      "128": "icons/icon128.png",
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png"
-   },
-   "manifest_version": 2,
-   "name": "Twitch Buffering Fix",
-   "permissions": [ "webRequest", "webRequestBlocking", "http://*.hls.ttvnw.net/*" ],
-   "version": "1.0.4"
+	"author": "vixing",
+	"background": {
+		"scripts": ["bg.js"]
+	},
+	"browser_action": {
+		"default_icon": "icons/icon48.png",
+		"default_title": "Twitch Buffering Fix",
+		"default_popup": "popup.html"
+	},
+	"description": "Lets you switch Twitch server to avoid buffering.",
+	"icons": {
+		"16": "icons/icon16.png",
+		"48": "icons/icon48.png",
+		"128": "icons/icon128.png"
+	},
+	"manifest_version": 2,
+	"name": "Twitch Buffering Fix",
+	"permissions": ["contextMenus", "webRequest", "webRequestBlocking", "http://*.hls.ttvnw.net/*", "http://*.hls.twitch.tv/*"],
+	"version": "1.0.5"
 }
