@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			html += '<div class="server ' + (bg.using == servers[i] ? 'server--selected' : '') + '" data-id="' + servers[i] + '">- ' + bg.replacements[servers[i]][1] + '</div>';
 		}
-	};
+	}
+	var avgString = '<div class="average">- ' + bg.avgTime + ' ms';
+    html += '<div class="country">Last 10 Average</div>' + avgString;
 	document.getElementById('content').insertAdjacentHTML('afterbegin', html);
 });

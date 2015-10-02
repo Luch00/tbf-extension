@@ -1,7 +1,8 @@
 var simple = false;
 var timeStamps = {};
-
+var times = [];
 var using = 0;
+var avgTime = 0;
 var search = /vid.*hls.*(\/hls.*.ts)/;
 
 var countries = {
@@ -18,28 +19,28 @@ var countries = {
 
 var replacements = [
 	["none", "Local server", "none"],
-	["GL", "Level3 cdn", "twitch2-live.hls.adaptive.level3.net"],
+	["GL", "Level3 cdn", "twitch2-live.hls.adaptive.level3.net", ".level3."],
 
-	["US-1", "San Francisco", "video-edge-2ca3e4.sfo01.hls.ttvnw.net"],
-	["US-2", "Seattle", "video-edge-7ea618.sea01.hls.ttvnw.net"],
-	["US-3", "San Jose", "video-edge-7e96ac.sjc01.hls.ttvnw.net"],
-	["US-4", "Chicago", "video-edge-835140.ord02.hls.ttvnw.net"],
-	["US-5", "Washington", "video20.iad02.hls.ttvnw.net"],
-	["US-6", "New York", "video20.jfk01.hls.ttvnw.net"],
-	["US-7", "Los Angeles", "video20.lax01.hls.ttvnw.net"],
-	["US-8", "Dallas", "video20.dfw01.hls.ttvnw.net"],
+	["US-1", "San Francisco", "video-edge-2ca3e4.sfo01.hls.ttvnw.net", ".sfo0."],
+	["US-2", "Seattle", "video-edge-7ea618.sea01.hls.ttvnw.net", ".sea01."],
+	["US-3", "San Jose", "video-edge-7e96ac.sjc01.hls.ttvnw.net", ".sjc01."],
+	["US-4", "Chicago", "video-edge-835140.ord02.hls.ttvnw.net", ".ord02."],
+	["US-5", "Washington", "video20.iad02.hls.ttvnw.net", ".iad02."],
+	["US-6", "New York", "video20.jfk01.hls.ttvnw.net", ".jfk01."],
+	["US-7", "Los Angeles", "video20.lax01.hls.ttvnw.net", ".lax01."],
+	["US-8", "Dallas", "video20.dfw01.hls.ttvnw.net", ".dfw01."],
 
-	["SE", "Stockholm", "video20.arn01.hls.ttvnw.net"],
+	["SE", "Stockholm", "video20.arn01.hls.ttvnw.net", ".arn01."],
 
-	["UK", "London", "video20.lhr02.hls.ttvnw.net"],
+	["UK", "London", "video20.lhr02.hls.ttvnw.net", ".lhr02."],
 
-	["NL", "Amsterdam", "video20.ams01.hls.ttvnw.net"],
+	["NL", "Amsterdam", "video20.ams01.hls.ttvnw.net", ".ams01."],
 
-	["FR", "Paris", "video16.cdg01.hls.ttvnw.net"],
+	["FR", "Paris", "video16.cdg01.hls.ttvnw.net", ".cdg01."],
 
-	["DE", "Frankfurt", "video20.fra01.hls.ttvnw.net"],
+	["DE", "Frankfurt", "video20.fra01.hls.ttvnw.net", ".fra01."],
 
-	["CZ", "Prague", "video20.prg01.hls.ttvnw.net"]
+	["CZ", "Prague", "video20.prg01.hls.ttvnw.net", ".prg01."]
 ];
 
 var per_country = {};
@@ -85,7 +86,7 @@ function init() {
 
 		        conf = replacements[using][2];
 		        subject = subject.replace(search, conf + "$1");
-		        if (subject !== info.url) {
+		        if (subject !== info.url && info.url.indexOf(replacements[using][3]) == -1) {
 
 		            return {
 		                redirectUrl: subject
@@ -110,9 +111,18 @@ function init() {
 		            var ts = timeStamps[info.url];
 		            delete timeStamps[info.url];
 		            var ms = Math.round(info.timeStamp - ts);
-		            setBadgeText(ms);
+		            setBadgeText(ms.toString(), info.tabId);
+
+		            if (times.push(ms) > 9) {
+		                var total = 0;
+		                for (var i = 0; i < times.length; i++) {
+		                    total = total + times[i];
+		                }
+		                avgTime = Math.round(total / times.length);
+		                times.shift();
+		            }
 		        }
-		        if (Object.keys(timeStamps).length > 1) {
+		        if (Object.keys(timeStamps).length > 20) {
 		            timeStamps = {};
 		        }
 		    }
@@ -125,9 +135,10 @@ function init() {
     updateButton();
 }
 
-function setBadgeText(text) {
+function setBadgeText(text, tabid) {
     chrome.browserAction.setBadgeText({
-        text: text
+        text: text,
+        tabId: tabid
     });
 }
 
@@ -147,4 +158,5 @@ function getStorage() {
 }
 
 chrome.browserAction.onClicked.addListener(click);
+
 getStorage();
